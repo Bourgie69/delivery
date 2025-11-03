@@ -1,7 +1,7 @@
-import { Logo } from "@/app/icons/logo";
-import { MenuIcon } from "@/app/icons/menu-icon";
-import { SettingsIcon } from "@/app/icons/settings-icon";
-import { TruckIcon } from "@/app/icons/truck-icon";
+import { Logo } from "@/app/_icons/logo";
+import { MenuIcon } from "@/app/_icons/menu-icon";
+import { SettingsIcon } from "@/app/_icons/settings-icon";
+import { TruckIcon } from "@/app/_icons/truck-icon";
 
 const Nav = () => {
   return (
@@ -18,20 +18,20 @@ const Nav = () => {
           </div>
         </div>
         <div className="flex flex-col pt-4 pl-10">
-          <button className="flex items-center my-4 justify-left gap-5">
+          <button className="flex items-center my-4 justify-left gap-5 p-2.5 mr-2.5 rounded-full">
             <div>
               <MenuIcon />
             </div>
             <p className="text-black text-sm">Food Menu</p>
           </button>
-          <button className="flex items-center my-4 justify-left gap-5">
+          <button className="flex items-center my-4 justify-left gap-5 p-2.5 mr-2.5 rounded-full">
             <div>
               <TruckIcon />
             </div>
 
             <p className="text-black text-sm">Orders</p>
           </button>
-          <button className="flex items-center my-4 justify-left gap-5">
+          <button className="flex items-center my-4 justify-left gap-5 p-2.5 mr-2.5 rounded-full">
             <div>
               <SettingsIcon />
             </div>

@@ -1,6 +1,6 @@
-import Nav from "./_components/nav/left-nav";
-import OrderNav from "./_components/orders/order-nav";
-import Orders from "./_components/orders/orders";
+import Nav from "../_components/nav/left-nav";
+import OrderNav from "../_components/orders/order-nav";
+import Orders from "../_components/orders/orders";
 
 export default function Home() {
   return (
