@@ -1,30 +1,32 @@
-const Orders = () => {
+const Orders = (props) => {
+  const { index, email, numOfItems, date, price, address, status } = props;
   return (
     <>
-      <div className="flex justify-around bg-white text-black w-[80%]">
+      <hr />
+      <div className="flex justify-around items-center bg-white text-black w-[80%]">
         <div className=" w-[80]">
           <input type="checkbox" />
         </div>
         <div className=" w-[80]">
-          <p>1</p>
+          <p>{index}</p>
         </div>
         <div className=" w-[200]">
-          <p>email</p>
+          <p>{email}</p>
         </div>
         <div className=" w-[80]">
-          <p>2 foods</p>
+          <p>{numOfItems}</p>
         </div>
         <div className=" w-[100]">
-          <p>2025/12/12</p>
+          <p>{date}</p>
         </div>
         <div className=" w-[80]">
-          <p>$123</p>
+          <p>{price}</p>
         </div>
         <div className=" w-[200]">
-          <p>Address</p>
+          <p>{address}</p>
         </div>
         <div className=" w-[80]">
-          <p>Pending</p>
+          <p>{status}</p>
         </div>
       </div>
     </>

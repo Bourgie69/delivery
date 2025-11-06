@@ -1,44 +1,105 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Nav from "./_components/nav/left-nav";
-import OrderNav from "./_components/orders/order-nav";
-import Orders from "./_components/orders/orders";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Nav from "./_components/nav/left-nav";
 
 export default function Home() {
-  const [data, setData] = useState([]);
+  const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/foods");
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/users/login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-    fetchData();
-  }, []);
+      const { token } = await res.json();
+
+      localStorage.setItem("token", token);
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
-    <div className="bg-gray-300 h-screen">
-      <Nav />
-      <div className="relative flex flex-col top-20 left-60">
-        <OrderNav />
-        <Orders />
-        <Button className="bg-amber-50 text-black w-[100px]">123</Button>
-        {data.map((item) => (
-          <div
-            key={item._id}
-            className="bg-gray-200 p-2.5 rounded-2xl text-black h-fit w-fit"
-          >
-            {item.name}
-          </div>
-        ))}
-      </div>
+    <div className=" justify-center items-center h-screen w-screen bg-gray-300">
+      <Nav/>
+      <Card className="w-full max-w-sm left-100 relative top-50">
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account
+          </CardDescription>
+          <CardAction>
+            <Button variant="link">Sign Up</Button>
+          </CardAction>
+        </CardHeader>
+
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <a
+                    href="#"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          <Button type="submit" className="w-full" onClick={handleSubmit}>
+            Login
+          </Button>
+          <Button variant="outline" className="w-full">
+            Login with Google
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
