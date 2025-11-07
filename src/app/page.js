@@ -56,7 +56,7 @@ export default function Home() {
           <CardAction>
             <Button variant="link">Sign Up</Button>
           </CardAction>
-        </CardHeader>
+        </CardHeader> 
 
         <CardContent>
           <form>
