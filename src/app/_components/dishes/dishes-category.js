@@ -1,9 +1,20 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 const DishesCategory = () => {
   const [data, setData] = useState([]);
+  const [categoryInput, setCategoryInput] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,18 +34,34 @@ const DishesCategory = () => {
     <div className="relative top-20 ">
       <div className="bg-white h-[200px] w-[70vw] rounded-2xl p-2.5">
         <p className="text-xl font-bold">Dishes Categories</p>
-        <div className="flex gap-2.5">
+        <div className="flex gap-2.5 flex-wrap">
           {data.map((item) => (
             <button
               key={item._id}
               className="bg-gray-300 rounded-full px-2.5 text-black"
             >
               {item.name}
-              <span className="rounded-full bg-black text-white px-2">
-                3 
-              </span>
+              <span className="rounded-full bg-black text-white px-2">3</span>
             </button>
           ))}
+
+          <Dialog>
+            <DialogTrigger>
+              <Button variant="destructive" className="rounded-full w-10 h-10">
+                +
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add new category</DialogTitle>
+              </DialogHeader>
+              <p>Category name</p>
+              <Input />
+              <div className="flex justify-end">
+                <Button className="w-[30%]">Add Category</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>
