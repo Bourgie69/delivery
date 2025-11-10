@@ -5,7 +5,6 @@ import DishesCategory from "../_components/dishes/dishes-category";
 import Nav from "../_components/nav/left-nav";
 import { useState, useEffect } from "react";
 
-
 const foodMenu = () => {
   const [data, setData] = useState([]);
 
@@ -26,9 +25,9 @@ const foodMenu = () => {
   return (
     <div className="bg-gray-300 h-screen flex">
       <Nav fillMenu={true} />
-      <div className="flex flex-col flex-0 mx-auto ">
+      <div className="relative flex flex-col flex-0 mx-auto top-20">
         <DishesCategory />
-        <Dishes/>
+        <Dishes />
       </div>
     </div>
   );
