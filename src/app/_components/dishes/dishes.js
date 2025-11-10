@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 const UPLOAD_PRESET = "delivery";
 const CLOUD_NAME = "dohxiuhvy";
@@ -20,6 +21,8 @@ const Dishes = () => {
   const [grouped, setGrouped] = useState({});
   const [foodName, setFoodName] = useState("");
   const [foodPrice, setFoodPrice] = useState("");
+  const [foodImageUrl, setFoodImageUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const handleAddDish = async (category) => {
     if (!foodName.trim()) return alert("Please fill out field!");
@@ -46,6 +49,41 @@ const Dishes = () => {
       setDialogOpen(false);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        { method: "POST", body: formData }
+      );
+      const data = await response.json();
+      return data.secure_url;
+    } catch (err) {
+      console.error("upload failed:", err);
+    }
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    setUploading(true);
+
+    try {
+      const url = await uploadToCloudinary(file);
+
+      setFoodImageUrl(url);
+    } catch (err) {
+      console.log("Failed Upload:", err.message);
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -107,7 +145,13 @@ const Dishes = () => {
                 <Input className="h-25" />
 
                 <p>Food Image</p>
-                <Input className="h-25" type="file" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploading}
+                  className="mb-4 p-2 border border-gray-300 rounded"
+                />
 
                 <div className="flex justify-end">
                   <Button
@@ -126,6 +170,27 @@ const Dishes = () => {
                 key={item._id}
                 className="flex h-50 w-50 rounded-2xl p-2.5 bg-gray-300"
               >
+                {uploading && <p className="text-blue-600">Uploading...</p>}{" "}
+                {foodImageUrl && (
+                  <div className="mt-4">
+                    {" "}
+                    <p className="text-green-600 font-semibold mb-2">
+                      Logo uploaded!
+                    </p>{" "}
+                    <div className="relative w-64 h-64">
+                      {" "}
+                      <Image
+                        src={foodImageUrl}
+                        alt="Uploaded logo"
+                        fill
+                        className="object-contain rounded border border-gray-300"
+                      />{" "}
+                    </div>{" "}
+                    <p className="mt-2 text-sm text-gray-600 break-all">
+                      {foodImageUrl}
+                    </p>{" "}
+                  </div>
+                )}
                 <p>{item.name}</p>
               </div>
             ))}
