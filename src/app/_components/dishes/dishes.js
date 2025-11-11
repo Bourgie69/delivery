@@ -17,11 +17,10 @@ const UPLOAD_PRESET = "delivery";
 const CLOUD_NAME = "dohxiuhvy";
 
 const Dishes = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [grouped, setGrouped] = useState({});
   const [foodName, setFoodName] = useState("");
   const [foodPrice, setFoodPrice] = useState("");
-  const [foodImageUrl, setFoodImageUrl] = useState("");
+  const [foodImage, setFoodImage] = useState("");
   const [uploading, setUploading] = useState(false);
 
   const handleAddDish = async (category) => {
@@ -35,6 +34,7 @@ const Dishes = () => {
           name: foodName,
           price: foodPrice,
           category: category,
+          image: foodImage ? [foodImage] : [],
         }),
       });
 
@@ -46,7 +46,6 @@ const Dishes = () => {
       console.log("Dish added", data);
       setFoodName("");
       setFoodPrice("");
-      setDialogOpen(false);
     } catch (err) {
       console.error(err);
     }
@@ -72,14 +71,12 @@ const Dishes = () => {
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
 
-    if (!file) return;
-
     setUploading(true);
 
     try {
       const url = await uploadToCloudinary(file);
 
-      setFoodImageUrl(url);
+      setFoodImage(url);
     } catch (err) {
       console.log("Failed Upload:", err.message);
     } finally {
@@ -91,7 +88,7 @@ const Dishes = () => {
     async function fetchFoods() {
       const res = await fetch("http://localhost:8000/foods");
       const data = await res.json();
-
+      console.log(data);
       const groupedData = data.reduce((acc, item) => {
         const catName = item.category?.name || "Uncategorized";
         if (!acc[catName]) acc[catName] = [];
@@ -102,7 +99,7 @@ const Dishes = () => {
     }
 
     fetchFoods();
-  }, [grouped]);
+  }, []);
 
   return (
     <div className="flex flex-col gap-2.5 mt-2 flex-wrap">
@@ -110,9 +107,9 @@ const Dishes = () => {
         <div key={category} className="bg-white rounded-2xl p-2.5">
           <p className="text-xl font-bold">{category}</p>
           <div className="flex flex-wrap gap-2.5 mt-2.5">
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <Dialog>
               <DialogTrigger asChild>
-                <div className="flex h-50 w-50 items-center justify-center border-2 border-dashed border-red-300 rounded-2xl cursor-pointer">
+                <div className="flex h-50 w-60 items-center justify-center border-2 border-dashed border-red-300 rounded-2xl cursor-pointer">
                   <Button
                     variant="destructive"
                     className="rounded-full w-10 h-10"
@@ -168,30 +165,29 @@ const Dishes = () => {
             {items.map((item) => (
               <div
                 key={item._id}
-                className="flex h-50 w-50 rounded-2xl p-2.5 bg-gray-300"
+                className="flex flex-col items-center h-50 w-60 rounded-2xl p-2.5 bg-gray-300"
               >
-                {uploading && <p className="text-blue-600">Uploading...</p>}{" "}
-                {foodImageUrl && (
-                  <div className="mt-4">
-                    {" "}
-                    <p className="text-green-600 font-semibold mb-2">
-                      Logo uploaded!
-                    </p>{" "}
-                    <div className="relative w-64 h-64">
-                      {" "}
-                      <Image
-                        src={foodImageUrl}
-                        alt="Uploaded logo"
-                        fill
-                        className="object-contain rounded border border-gray-300"
-                      />{" "}
-                    </div>{" "}
-                    <p className="mt-2 text-sm text-gray-600 break-all">
-                      {foodImageUrl}
-                    </p>{" "}
-                  </div>
-                )}
-                <p>{item.name}</p>
+                {uploading && <p className="text-blue-600">Uploading...</p>}
+
+                <div className="relative w-full h-30 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
+                  {item.image?.length > 0 ? (
+                    <Image
+                      src={item.image[0]}
+                      alt="Dish image"
+                      fill
+                      className="object-cover object-center w-full h-full"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">
+                      No image
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-between w-full">
+                  <p className="text-red-500 font-semibold">{item.name}</p>
+                  <p>${item.price}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -13,7 +13,6 @@ const foodMenu = () => {
       try {
         const response = await fetch("http://localhost:8000/categories");
         const result = await response.json();
-        console.log(result);
         setData(result);
       } catch (error) {
         console.error(error);

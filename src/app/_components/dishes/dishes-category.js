@@ -45,7 +45,6 @@ const DishesCategory = () => {
       try {
         const response = await fetch("http://localhost:8000/categories");
         const result = await response.json();
-        console.log(result);
         setData(result);
       } catch (error) {
         console.error(error);
@@ -53,7 +52,7 @@ const DishesCategory = () => {
     };
 
     fetchData();
-  }, [data]);
+  }, []);
   return (
     <div className="relative">
       <div className="bg-white h-[200px] w-[70vw] rounded-2xl p-2.5">
