@@ -12,6 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { Edit } from "lucide-react";
+import EditDishes from "./editDishes";
 
 const UPLOAD_PRESET = "delivery";
 const CLOUD_NAME = "dohxiuhvy";
@@ -46,6 +48,7 @@ const Dishes = () => {
       console.log("Dish added", data);
       setFoodName("");
       setFoodPrice("");
+      setFoodImage("");
     } catch (err) {
       console.error(err);
     }
@@ -109,13 +112,14 @@ const Dishes = () => {
           <div className="flex flex-wrap gap-2.5 mt-2.5">
             <Dialog>
               <DialogTrigger asChild>
-                <div className="flex h-50 w-60 items-center justify-center border-2 border-dashed border-red-300 rounded-2xl cursor-pointer">
+                <div className="flex flex-col gap-4 h-60 w-67 items-center justify-center border-2 border-dashed border-red-300 rounded-2xl cursor-pointer">
                   <Button
                     variant="destructive"
                     className="rounded-full w-10 h-10"
                   >
                     +
                   </Button>
+                  <p>Add New Dish to {category}</p>
                 </div>
               </DialogTrigger>
               <DialogContent>
@@ -142,15 +146,27 @@ const Dishes = () => {
                 <Input className="h-25" />
 
                 <p>Food Image</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={uploading}
-                  className="mb-4 p-2 border border-gray-300 rounded"
-                />
+                {!foodImage ? (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="mb-4 p-2 border border-gray-300 rounded h-50 "
+                  />
+                ) : (
+                  <div className="relative h-50 w-full">
+                    <Image
+                      src={foodImage}
+                      alt="Dish image"
+                      fill
+                      className="object-cover object-center w-full h-full rounded-2xl"
+                    />
+                  </div>
+                )}
 
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-2.5">
+                  {uploading && <p className="text-blue-600">Uploading...</p>}
                   <Button
                     className="w-[30%]"
                     onClick={() => {
@@ -165,11 +181,9 @@ const Dishes = () => {
             {items.map((item) => (
               <div
                 key={item._id}
-                className="flex flex-col items-center h-50 w-60 rounded-2xl p-2.5 bg-gray-300"
+                className="flex flex-col gap-2.5 items-center h-60 w-67 rounded-2xl p-2.5 border"
               >
-                {uploading && <p className="text-blue-600">Uploading...</p>}
-
-                <div className="relative w-full h-30 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
+                <div className="relative w-full h-32 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
                   {item.image?.length > 0 ? (
                     <Image
                       src={item.image[0]}
@@ -183,11 +197,17 @@ const Dishes = () => {
                     </div>
                   )}
                 </div>
-
+                <EditDishes
+                  foodImage={item.image[0]}
+                  foodName={item.name}
+                  foodPrice={item.price}
+                  foodIngredients={item.ingredients}
+                />
                 <div className="flex justify-between w-full">
                   <p className="text-red-500 font-semibold">{item.name}</p>
                   <p>${item.price}</p>
                 </div>
+                <p>{item.ingredients}</p>
               </div>
             ))}
           </div>

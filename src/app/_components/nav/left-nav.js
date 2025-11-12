@@ -8,7 +8,7 @@ import WhiteTruckIcon from "@/app/_icons/whiteTruck-icon";
 const Nav = (props) => {
   const { fillMenu, fillOrder, fillSettings } = props;
   return (
-    <div className="bg-white w-[200px] h-screen">
+    <div className="bg-white w-[200px]">
       <div className="flex pt-2.5 justify-center gap-4 items-center">
         <div>
           <Logo />

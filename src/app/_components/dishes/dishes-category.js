@@ -61,7 +61,7 @@ const DishesCategory = () => {
           {data.map((item) => (
             <button
               key={item._id}
-              className="bg-gray-300 rounded-full px-2.5 text-black"
+              className="border border-gray-300 rounded-full px-2.5 text-black"
             >
               {item.name}{" "}
               <span className="rounded-full bg-black text-white px-2">3</span>
