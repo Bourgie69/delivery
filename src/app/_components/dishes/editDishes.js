@@ -17,8 +17,16 @@ import Image from "next/image";
 import { useState } from "react";
 
 const EditDishes = (props) => {
-  const { foodName, foodImage, foodPrice, foodCategory, foodIngredients } =
-    props;
+  const {
+    foodName,
+    food_id,
+    foodImage,
+    foodPrice,
+    foodCategory,
+    foodIngredients,
+  } = props;
+
+  const [openEdit, setOpenEdit] = useState(false);
 
   const [name, setName] = useState(foodName);
   const [price, setPrice] = useState(foodPrice);
@@ -26,19 +34,49 @@ const EditDishes = (props) => {
   const [category, setCategory] = useState(foodCategory);
   const [image, setImage] = useState(foodImage);
 
+  const handleEditDish = async (id) => {
+    try {
+      const response = await fetch("http://localhost:8000/foods", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: food_id,
+          name: name,
+          ingredients: ingredients,
+          price: price,
+          image: image ? [image] : [],
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to edit dish");
+      }
+      const data = await response.json();
+      console.log("Dish edited", data);
+      setOpenEdit(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div>
-      <Dialog>
-        <form>
-          <DialogTrigger asChild>
-            <Button variant="outline" className="rounded-full h-10 w-10">
-              <EditDishIcon />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[475px] h-fit">
-            <DialogHeader>
-              <DialogTitle>Dishes Info</DialogTitle>
-            </DialogHeader>
+    <div className="absolute right-5 top-23">
+      <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+        <DialogTrigger asChild>
+          <Button variant="outline" className="rounded-full h-10 w-10">
+            <EditDishIcon />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[475px] h-fit">
+          <DialogHeader>
+            <DialogTitle>Dishes Info</DialogTitle>
+          </DialogHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEditDish(food_id);
+              setOpenEdit(false);
+            }}
+          >
             <div className="flex flex-col justify-between gap-10">
               <div className="flex justify-between">
                 <Label htmlFor="name-1" className="text-gray-500">
@@ -46,7 +84,7 @@ const EditDishes = (props) => {
                 </Label>
                 <Input
                   className="w-60"
-                  defaultValue={foodName}
+                  value={name}
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
@@ -70,7 +108,7 @@ const EditDishes = (props) => {
                 </Label>
                 <Input
                   className="w-60 h-20"
-                  defaultValue={foodIngredients}
+                  value={ingredients}
                   onChange={(e) => {
                     setIngredients(e.target.value);
                   }}
@@ -115,8 +153,8 @@ const EditDishes = (props) => {
               </DialogClose>
               <Button type="submit">Save changes</Button>
             </DialogFooter>
-          </DialogContent>
-        </form>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   );

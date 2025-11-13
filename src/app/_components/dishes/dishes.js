@@ -181,7 +181,7 @@ const Dishes = () => {
             {items.map((item) => (
               <div
                 key={item._id}
-                className="flex flex-col gap-2.5 items-center h-60 w-67 rounded-2xl p-2.5 border"
+                className="relative flex flex-col gap-2.5 items-center h-60 w-67 rounded-2xl p-2.5 border"
               >
                 <div className="relative w-full h-32 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
                   {item.image?.length > 0 ? (
@@ -198,6 +198,7 @@ const Dishes = () => {
                   )}
                 </div>
                 <EditDishes
+                  food_id={item._id}
                   foodImage={item.image[0]}
                   foodName={item.name}
                   foodPrice={item.price}
@@ -207,7 +208,7 @@ const Dishes = () => {
                   <p className="text-red-500 font-semibold">{item.name}</p>
                   <p>${item.price}</p>
                 </div>
-                <p>{item.ingredients}</p>
+                <p className="line-clamp-2 pb-2 text-xs">{item.ingredients}</p>
               </div>
             ))}
           </div>

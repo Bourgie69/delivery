@@ -4,12 +4,17 @@ import { SettingsIcon } from "@/app/_icons/settings-icon";
 import { TruckIcon } from "@/app/_icons/truck-icon";
 import WhiteMenuIcon from "@/app/_icons/whiteMenu-icon";
 import WhiteTruckIcon from "@/app/_icons/whiteTruck-icon";
+import { useRouter } from "next/navigation";
 
 const Nav = (props) => {
   const { fillMenu, fillOrder, fillSettings } = props;
+
+  const router = useRouter()
+
   return (
     <div className="bg-white w-[200px]">
-      <div className="flex pt-2.5 justify-center gap-4 items-center">
+      <div className="flex pt-10 justify-center gap-4 items-center cursor-pointer"
+      onClick={() => {router.push("/")}}>
         <div>
           <Logo />
         </div>
@@ -23,6 +28,7 @@ const Nav = (props) => {
         <button
           className="flex items-center my-4 justify-left gap-5 p-2.5 mr-2.5 rounded-full"
           style={{ backgroundColor: fillMenu ? "black" : "transparent" }}
+          onClick={() => {router.push('/foodMenu')}}
         >
           <div>{fillMenu ? <WhiteMenuIcon /> : <MenuIcon />}</div>
           <p
@@ -35,6 +41,7 @@ const Nav = (props) => {
         <button
           className="flex items-center my-4 justify-left gap-5 p-2.5 mr-2.5 rounded-full"
           style={{ backgroundColor: fillOrder ? "black" : "transparent" }}
+          onClick={() => {router.push("/orders")}}
         >
           <div>{fillOrder ? <WhiteTruckIcon /> : <TruckIcon />}</div>
 

@@ -45,9 +45,9 @@ export default function Home() {
   };
 
   return (
-    <div className=" justify-center items-center h-screen w-screen bg-gray-300">
+    <div className="flex min-h-screen bg-gray-300">
       <Nav/>
-      <Card className="w-full max-w-sm left-100 relative top-50">
+      <Card className="w-full max-w-sm h-fit relative mx-auto my-auto">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>

@@ -22,9 +22,9 @@ const foodMenu = () => {
     fetchData();
   }, []);
   return (
-    <div className="bg-gray-300 flex">
+    <div className="min-h-screen bg-gray-300 flex">
       <Nav fillMenu={true} />
-      <div className="relative flex flex-col flex-0 mx-auto top-20">
+      <div className="flex flex-col flex-0 mx-auto my-20">
         <DishesCategory />
         <Dishes />
       </div>

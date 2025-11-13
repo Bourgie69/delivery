@@ -23,9 +23,9 @@ export default function Home() {
     fetchData();
   }, []);
   return (
-    <div className="bg-gray-300 h-screen">
+    <div className="flex bg-gray-300 min-h-screen">
       <Nav fillOrder={true}/>
-      <div className="relative flex flex-col top-20 left-60">
+      <div className="relative flex flex-col mx-auto my-auto flex-wrap-reverse">
         <OrderNav />
 
         {data.map((item) => (
