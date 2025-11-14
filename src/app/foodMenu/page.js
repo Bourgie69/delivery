@@ -1,7 +1,7 @@
 "use client";
 
 import Dishes from "../_components/dishes/dishes";
-import DishesCategory from "../_components/dishes/dishes-category";
+import DishesByCategory from "../_components/dishes/dishes-by-category";
 import Nav from "../_components/nav/left-nav";
 import { useState, useEffect } from "react";
 
@@ -25,7 +25,6 @@ const foodMenu = () => {
     <div className="min-h-screen bg-gray-300 flex">
       <Nav fillMenu={true} />
       <div className="flex flex-col flex-0 mx-auto my-20">
-        <DishesCategory />
         <Dishes />
       </div>
     </div>
