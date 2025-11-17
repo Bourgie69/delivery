@@ -27,7 +27,6 @@ const Dishes = () => {
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [data, setData] = useState([]);
   const [categoryName, setCategoryName] = useState("");
-  const [categoryLength, setCategoryLength] = useState(0);
   const [chosenCategory, setChosenCategory] = useState("");
 
   const handleAddCategory = async () => {
