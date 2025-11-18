@@ -12,12 +12,20 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Nav from "./_components/nav/left-nav";
 
 export default function Home() {
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (!token) router.push("/login");
+      console.log(token, 123)
+    }
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
