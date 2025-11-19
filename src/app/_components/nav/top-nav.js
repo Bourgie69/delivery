@@ -1,16 +1,38 @@
 "use client";
 
-import CartIcon from "@/app/_icons/cart-icon";
 import { Logo } from "@/app/_icons/logo";
-import MapIcon from "@/app/_icons/map-icon";
-import RightArrowIcon from "@/app/_icons/rightArrow-icon";
 import UserIcon from "@/app/_icons/user-icon";
 import { useRouter } from "next/navigation";
 import Address from "./top-nav/address";
 import Cart from "./top-nav/cart";
 
-const TopNav = () => {
+const TopNav = (props) => {
   const router = useRouter();
+
+  const handleAddAddress = async (address) => {
+
+    try {
+      const response = await fetch("http://localhost:8000/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address: address
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add dish");
+      }
+
+      const data = await response.json();
+      console.log("Address added", data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const { cartItems, setCartItems } = props
+
   return (
     <div className="flex justify-between bg-black h-17 px-10 items-center">
       <div
@@ -34,7 +56,7 @@ const TopNav = () => {
       <div className="flex gap-2.5 items-center">
         <Address />
 
-        <Cart/>
+        <Cart cartItems={cartItems} setCartItems={setCartItems} />
 
         <div className="flex bg-red-500 h-9 w-9 rounded-full justify-center items-center">
           <UserIcon />

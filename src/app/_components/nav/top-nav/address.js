@@ -16,7 +16,28 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-const Address = () => {
+const Address = (props) => {
+  const handleAddAddress = async (address) => {
+    try {
+      const response = await fetch("http://localhost:8000/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address: address,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add dish");
+      }
+
+      const data = await response.json();
+      console.log("Address added", data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [address, setAddress] = useState("");
 
@@ -31,7 +52,7 @@ const Address = () => {
                   <MapIcon />
                 </div>
                 <p className="text-red-500 text-sm">
-                  Delivery address:{" "}
+                  Delivery address:
                   <span className="text-gray-500">Add location</span>
                 </p>
                 <RightArrowIcon />
@@ -56,7 +77,7 @@ const Address = () => {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit" onClick={() => setDialogOpen(false)}>
+              <Button type="submit" onClick={() => {{setDialogOpen(false)}; handleAddAddress(address)}}>
                 Deliver here
               </Button>
             </DialogFooter>
