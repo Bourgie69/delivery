@@ -1,7 +1,6 @@
 "use client";
 
-import Dishes from "../_components/dishes/dishes";
-import DishesByCategory from "../_components/dishes/dishes-by-category";
+import Dishes from "../_components/Admin/dishes/dishes";
 import Nav from "../_components/nav/left-nav";
 import { useState, useEffect } from "react";
 

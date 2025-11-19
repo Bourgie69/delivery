@@ -23,6 +23,7 @@ const Dishes = () => {
   const [foodName, setFoodName] = useState("");
   const [foodPrice, setFoodPrice] = useState("");
   const [foodImage, setFoodImage] = useState("");
+  const [foodIngredients, setFoodIngredients] = useState("");
   const [uploading, setUploading] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -75,6 +76,7 @@ const Dishes = () => {
       console.log("Dish added", data);
       setFoodName("");
       setFoodPrice("");
+      setFoodIngredients("");
       setFoodImage("");
     } catch (err) {
       console.error(err);
@@ -166,7 +168,7 @@ const Dishes = () => {
             {data.map((item) => {
               const catName = item.name;
               const count = grouped[catName]?.length || 0;
-              console.log(item, 'wubba');
+              console.log(item, "wubba");
               return (
                 <button
                   key={item._id}
@@ -217,117 +219,125 @@ const Dishes = () => {
         </div>
       </div>
       <div className="flex flex-col gap-2.5 mt-2 flex-wrap">
-        {!chosenCategory && Object.entries(grouped).map(([category, items]) => (
-          <div key={category} className="bg-white rounded-2xl p-2.5">
-            <p className="text-xl font-bold">{category}</p>
-            <div className="flex flex-wrap gap-2.5 mt-2.5">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className="flex flex-col gap-4 h-60 w-67 items-center justify-center border-2 border-dashed border-red-300 rounded-2xl cursor-pointer">
-                    <Button
-                      variant="destructive"
-                      className="rounded-full w-10 h-10"
-                    >
-                      +
-                    </Button>
-                    <p>Add New Dish to {category}</p>
-                  </div>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Add new dish to {category}</DialogTitle>
-                  </DialogHeader>
-                  <div className="flex justify-between">
-                    <div>
-                      <p>Food name</p>
-                      <Input
-                        value={foodName}
-                        onChange={(e) => setFoodName(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <p>Food price</p>
-                      <Input
-                        value={foodPrice}
-                        onChange={(e) => setFoodPrice(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <p>Ingredients</p>
-                  <Input className="h-25" />
-
-                  <p>Food Image</p>
-                  {!foodImage ? (
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      disabled={uploading}
-                      className="mb-4 p-2 border border-gray-300 rounded h-50 "
-                    />
-                  ) : (
-                    <div className="relative h-50 w-full">
-                      <Image
-                        src={foodImage}
-                        alt="Dish image"
-                        fill
-                        className="object-cover object-center w-full h-full rounded-2xl"
-                      />
-                    </div>
-                  )}
-
-                  <div className="flex justify-end gap-2.5">
-                    {uploading && <p className="text-blue-600">Uploading...</p>}
-                    <Button
-                      className="w-[30%]"
-                      onClick={() => {
-                        handleAddDish(items[0].category?._id);
-                      }}
-                    >
-                      Add Dish
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              {items.map((item) => (
-                <div
-                  key={item._id}
-                  className="relative flex flex-col gap-2.5 items-center h-60 w-67 rounded-2xl p-2.5 border"
+        {!chosenCategory &&
+          Object.entries(grouped).map(([category, items]) => (
+            <div key={category} className="bg-white rounded-2xl p-2.5">
+              <p className="text-xl font-bold">{category}</p>
+              <div className="flex flex-wrap gap-2.5 mt-2.5">
+                <Dialog
+                 
                 >
-                  <div className="relative w-full h-32 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
-                    {item.image?.length > 0 ? (
-                      <Image
-                        src={item.image[0]}
-                        alt="Dish image"
-                        fill
-                        className="object-cover object-center w-full h-full"
+                  <DialogTrigger asChild>
+                    <div className="flex flex-col gap-4 h-60 w-67 items-center justify-center border-2 border-dashed border-red-300 rounded-2xl cursor-pointer">
+                      <Button
+                        variant="destructive"
+                        className="rounded-full w-10 h-10"
+                      >
+                        +
+                      </Button>
+                      <p>Add New Dish to {category}</p>
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Add new dish to {category}</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex justify-between">
+                      <div>
+                        <p>Food name</p>
+                        <Input
+                          value={foodName}
+                          onChange={(e) => setFoodName(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <p>Food price</p>
+                        <Input
+                          value={foodPrice}
+                          onChange={(e) => setFoodPrice(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <p>Ingredients</p>
+                    <Input
+                      className="h-25"
+                      value={foodIngredients}
+                      onChange={(e) => setFoodIngredients(e.target.value)}
+                    />
+
+                    <p>Food Image</p>
+                    {!foodImage ? (
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploading}
+                        className="mb-4 p-2 border border-gray-300 rounded h-50 "
                       />
                     ) : (
-                      <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">
-                        No image
+                      <div className="relative h-50 w-full">
+                        <Image
+                          src={foodImage}
+                          alt="Dish image"
+                          fill
+                          className="object-cover object-center w-full h-full rounded-2xl"
+                        />
                       </div>
                     )}
+
+                    <div className="flex justify-end gap-2.5">
+                      {uploading && (
+                        <p className="text-blue-600">Uploading...</p>
+                      )}
+                      <Button
+                        className="w-[30%]"
+                        onClick={() => {
+                          handleAddDish(items[0].category?._id);
+                        }}
+                      >
+                        Add Dish
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                {items.map((item) => (
+                  <div
+                    key={item._id}
+                    className="relative flex flex-col gap-2.5 items-center h-60 w-67 rounded-2xl p-2.5 border"
+                  >
+                    <div className="relative w-full h-32 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
+                      {item.image?.length > 0 ? (
+                        <Image
+                          src={item.image[0]}
+                          alt="Dish image"
+                          fill
+                          className="object-cover object-center w-full h-full"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">
+                          No image
+                        </div>
+                      )}
+                    </div>
+                    <EditDishes
+                      food_id={item._id}
+                      foodImage={item.image[0]}
+                      foodName={item.name}
+                      foodPrice={item.price}
+                      foodIngredients={item.ingredients}
+                    />
+                    <div className="flex justify-between w-full">
+                      <p className="text-red-500 font-semibold">{item.name}</p>
+                      <p>${item.price}</p>
+                    </div>
+                    <p className="line-clamp-2 pb-2 text-xs">
+                      {item.ingredients}
+                    </p>
                   </div>
-                  <EditDishes
-                    food_id={item._id}
-                    foodImage={item.image[0]}
-                    foodName={item.name}
-                    foodPrice={item.price}
-                    foodIngredients={item.ingredients}
-                  />
-                  <div className="flex justify-between w-full">
-                    <p className="text-red-500 font-semibold">{item.name}</p>
-                    <p>${item.price}</p>
-                  </div>
-                  <p className="line-clamp-2 pb-2 text-xs">
-                    {item.ingredients}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-        
+          ))}
       </div>
       <DishesByCategory category_id={chosenCategory} />
     </>

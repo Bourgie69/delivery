@@ -40,7 +40,7 @@ const EditDishes = (props) => {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: food_id,
+          id: id,
           name: name,
           ingredients: ingredients,
           price: price,
@@ -50,11 +50,28 @@ const EditDishes = (props) => {
       if (!response.ok) {
         throw new Error("Failed to edit dish");
       }
-      const data = await response.json();
-      console.log("Dish edited", data);
       setOpenEdit(false);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleDeleteDish = async (id) => {
+    try {
+      const response = await fetch("http://localhost:8000/foods", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("failed to delete");
+      }
+      setOpenEdit(false);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -147,11 +164,22 @@ const EditDishes = (props) => {
                 )}
               </div>
             </div>
-            <DialogFooter className="">
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button type="submit">Save changes</Button>
+            <DialogFooter className="flex justify-between mt-4">
+              <Button
+                type="button"
+                variant="destructive"
+                className="px-6 py-2"
+                onClick={() => handleDeleteDish(food_id)}
+              >
+                Delete
+              </Button>
+
+              <Button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700"
+              >
+                Save changes
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

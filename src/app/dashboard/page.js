@@ -3,7 +3,8 @@
 import TopNav from "../_components/nav/top-nav";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Footer from "../_components/footer/footer";
+import Footer from "../_components/Dashboard/footer/footer";
+import Hero from "../_components/Dashboard/hero/hero";
 
 const Dashboard = () => {
   const [grouped, setGrouped] = useState({});
@@ -25,9 +26,9 @@ const Dashboard = () => {
   }, []);
   return (
     <>
-      <div className="min-h-screen py-10 bg-gray-700">
+      <div className="min-h-screen pb-10 bg-gray-700">
         <TopNav />
-        <div className="bg-white h-50">Hero</div>
+        <Hero/>
         <div className="mx-auto px-12 w-fit mt-2.5">
           {Object.entries(grouped).map(([category, items]) => (
             <div key={category}>

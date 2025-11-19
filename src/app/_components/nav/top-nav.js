@@ -6,6 +6,8 @@ import MapIcon from "@/app/_icons/map-icon";
 import RightArrowIcon from "@/app/_icons/rightArrow-icon";
 import UserIcon from "@/app/_icons/user-icon";
 import { useRouter } from "next/navigation";
+import Address from "./top-nav/address";
+import Cart from "./top-nav/cart";
 
 const TopNav = () => {
   const router = useRouter();
@@ -30,22 +32,13 @@ const TopNav = () => {
       </div>
 
       <div className="flex gap-2.5 items-center">
-        <div className="flex justify-start gap-2.5 p-2.5 bg-white h-9 w-fit rounded-full items-center">
-            <div>
-                <MapIcon/>
-            </div>
-            <p className="text-red-500 text-sm">Delivery address: <span className="text-gray-500">Add location</span></p>
-            <RightArrowIcon/>
-        </div>
+        <Address />
 
-        <div className="flex bg-white h-9 w-9 rounded-full justify-center items-center">
-            <CartIcon/>
-        </div>
+        <Cart/>
 
         <div className="flex bg-red-500 h-9 w-9 rounded-full justify-center items-center">
-            <UserIcon/>
+          <UserIcon />
         </div>
-
       </div>
     </div>
   );
