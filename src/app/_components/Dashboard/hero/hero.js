@@ -1,10 +1,17 @@
+import Image from "next/image";
+
 const Hero = () => {
   return (
-    <div className="bg-white h-[570px]">
-      <div className="bg-black h-[310px]"></div>
-      <div className="bg-red-400 h-[310px]"></div>
+    <div>
+      <Image
+        src="/image.png"
+        alt="hero"
+        width={1920}
+        height={1080}
+        className="object-contain w-full h-auto"
+      />
     </div>
   );
 };
 
-export default Hero
+export default Hero;

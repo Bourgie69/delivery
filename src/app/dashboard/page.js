@@ -29,7 +29,7 @@ const Dashboard = () => {
   }, []);
   return (
     <>
-      <div className="min-h-screen pb-10 bg-gray-700">
+      <div className="min-h-screen pb-10 bg-gray-500">
         <TopNav cartItems={cartItems} setCartItems={setCartItems} />
         <Hero/>
         <div className="mx-auto px-12 w-fit mt-2.5">

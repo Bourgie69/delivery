@@ -52,7 +52,7 @@ const Address = (props) => {
                   <MapIcon />
                 </div>
                 <p className="text-red-500 text-sm">
-                  Delivery address:
+                  Delivery address:{" "}
                   <span className="text-gray-500">Add location</span>
                 </p>
                 <RightArrowIcon />
@@ -77,7 +77,15 @@ const Address = (props) => {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit" onClick={() => {{setDialogOpen(false)}; handleAddAddress(address)}}>
+              <Button
+                type="submit"
+                onClick={() => {
+                  {
+                    setDialogOpen(false);
+                  }
+                  handleAddAddress(address);
+                }}
+              >
                 Deliver here
               </Button>
             </DialogFooter>

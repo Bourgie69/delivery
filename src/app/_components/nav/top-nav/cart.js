@@ -17,9 +17,10 @@ import { Button } from "@/components/ui/button";
 import CartWhiteIcon from "@/app/_icons/cartWhite-icon";
 
 const Cart = (props) => {
-  const { cartItems, setCartItmes } = props;
+  const { cartItems, setCartItems } = props;
 
   const [cartPage, setCartPage] = useState(true);
+
   const addQuantity = (item) => {
     item.quantity += 1;
   };
@@ -47,7 +48,7 @@ const Cart = (props) => {
             </div>
           </button>
         </SheetTrigger>
-        <SheetContent className="bg-gray-700">
+        <SheetContent className="bg-gray-500">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2 text-white">
               <CartWhiteIcon />
@@ -112,7 +113,7 @@ const Cart = (props) => {
                           <div className="flex items-center gap-2.5">
                             <Button onClick={() => reduceQuantity(item)}>
                               -
-                            </Button>{" "}
+                            </Button>
                             <p>{item.quantity}</p>
                             <Button onClick={() => addQuantity(item)}>+</Button>
                           </div>
@@ -120,18 +121,31 @@ const Cart = (props) => {
                       </div>
                     ))
                   )}
+                  <hr/>
+                  <p>Delivery address:</p>
+                  <textarea placeholder="Please enter delivery address here" className="border h-20 rounded-2xl p-2"/>
                 </div>
               </div>
-              <div className="bg-white rounded-2xl px-2">
+              <div className="flex-col bg-white rounded-2xl p-2 gap-2"
+              style={{display: cartItems.length !== 0 ? 'flex' : 'none'}}>
                 <p className="text-2xl text-gray-500">Payment Info</p>
                 <p>
-                  Total Price: $
+                  Items: $
                   <span>
                     {cartItems.reduce((acc, current) => {
                       return acc + current.price * current.quantity;
                     }, 0)}
                   </span>
                 </p>
+                <p>Shipping: $4.99</p>
+                    <hr/>
+                <p>Total: $<span>
+                    {cartItems.reduce((acc, current) => {
+                      return acc + current.price * current.quantity;
+                    }, 0)}
+                  </span></p>
+
+                  <Button variant="destructive">Checkout</Button>
               </div>
             </div>
 

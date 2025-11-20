@@ -1,8 +1,8 @@
 "use client";
 
 import Nav from "../_components/nav/left-nav";
-import OrderNav from "../_components/orders/order-nav";
-import Orders from "../_components/orders/orders";
+import OrderNav from "../_components/Admin/orders/order-nav";
+import Orders from "../_components/Admin/orders/orders";
 import { useState, useEffect } from "react";
 
 export default function Home() {
