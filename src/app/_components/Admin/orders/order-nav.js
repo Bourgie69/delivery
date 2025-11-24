@@ -1,6 +1,6 @@
 const OrderNav = () => {
   return (
-    <>
+    <div>
       <div className="flex w-[80%] relative rounded-t-2xl p-2.5 justify-between bg-white">
         <div className="flex flex-col items-center">
           <p className="text-2xl text-black">Orders</p>
@@ -21,7 +21,7 @@ const OrderNav = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

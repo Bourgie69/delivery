@@ -1,8 +1,8 @@
 const Orders = (props) => {
   const { index, email, numOfItems, date, price, address, status } = props;
   return (
-    <>
-      <hr className="w-fit"/>
+    <div>
+      <hr className="w-fit" />
       <div className="flex justify-around items-center bg-white text-black w-[80%]">
         <div className=" w-[80]">
           <input type="checkbox" />
@@ -29,7 +29,7 @@ const Orders = (props) => {
           <p>{status}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

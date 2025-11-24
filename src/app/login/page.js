@@ -50,7 +50,6 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-gray-300">
-      <Nav />
       <Card className="w-full max-w-sm h-fit relative mx-auto my-auto">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>

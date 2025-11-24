@@ -52,16 +52,7 @@ const Nav = (props) => {
             Orders
           </p>
         </button>
-        <button
-          className="flex items-center my-4 justify-left gap-5 p-2.5 mr-2.5 rounded-full"
-          style={{ backgroundColor: fillSettings ? "black" : "transparent" }}
-        >
-          <div>
-            <SettingsIcon />
-          </div>
-
-          <p className="text-black text-sm">Settings</p>
-        </button>
+        
       </div>
     </div>
   );

@@ -25,14 +25,14 @@ export default function Home() {
   return (
     <div className="flex bg-gray-300 min-h-screen">
       <Nav fillOrder={true}/>
-      <div className="relative flex flex-col mx-auto my-auto flex-wrap-reverse">
+      <div className="relative flex flex-0 flex-col mx-auto my-auto">
         <OrderNav />
 
         {data.map((item) => (
           <Orders
             key={item._id}
             index={data.indexOf(item) + 1}
-            email={item.user?.email}
+            email={item.user}
             date={item.updatedAt}
             price={item.totalPrice}
           />

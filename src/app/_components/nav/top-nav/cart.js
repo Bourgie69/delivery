@@ -48,7 +48,7 @@ const Cart = (props) => {
             </div>
           </button>
         </SheetTrigger>
-        <SheetContent className="bg-gray-500">
+        <SheetContent className="bg-gray-900 border-0 w-[530px] max-w-none!">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2 text-white">
               <CartWhiteIcon />
@@ -92,7 +92,10 @@ const Cart = (props) => {
                     <p>Your Cart is empty</p>
                   ) : (
                     cartItems.map((item) => (
-                      <div key={item._id} className="flex bg-gray-300 rounded-2xl">
+                      <div
+                        key={item._id}
+                        className="flex bg-gray-300 rounded-2xl"
+                      >
                         <div className="relative w-32 h-32 rounded-xl bg-gray-100 overflow-hidden border border-gray-300 shadow-sm">
                           {item.image?.length > 0 ? (
                             <Image
@@ -121,13 +124,18 @@ const Cart = (props) => {
                       </div>
                     ))
                   )}
-                  <hr/>
+                  <hr />
                   <p>Delivery address:</p>
-                  <textarea placeholder="Please enter delivery address here" className="border h-20 rounded-2xl p-2"/>
+                  <textarea
+                    placeholder="Please enter delivery address here"
+                    className="border h-20 rounded-2xl p-2"
+                  />
                 </div>
               </div>
-              <div className="flex-col bg-white rounded-2xl p-2 gap-2"
-              style={{display: cartItems.length !== 0 ? 'flex' : 'none'}}>
+              <div
+                className="flex-col bg-white rounded-2xl p-2 gap-2"
+                style={{ display: cartItems.length !== 0 ? "flex" : "none" }}
+              >
                 <p className="text-2xl text-gray-500">Payment Info</p>
                 <p>
                   Items: $
@@ -138,14 +146,17 @@ const Cart = (props) => {
                   </span>
                 </p>
                 <p>Shipping: $4.99</p>
-                    <hr/>
-                <p>Total: $<span>
+                <hr />
+                <p>
+                  Total: $
+                  <span>
                     {cartItems.reduce((acc, current) => {
                       return acc + current.price * current.quantity;
                     }, 0)}
-                  </span></p>
+                  </span>
+                </p>
 
-                  <Button variant="destructive">Checkout</Button>
+                <Button variant="destructive">Checkout</Button>
               </div>
             </div>
 
