@@ -4,11 +4,20 @@ import Nav from "../_components/nav/left-nav";
 import OrderNav from "../_components/Admin/orders/order-nav";
 import Orders from "../_components/Admin/orders/orders";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8000/orders");
@@ -24,7 +33,7 @@ export default function Home() {
   }, []);
   return (
     <div className="flex bg-gray-300 min-h-screen">
-      <Nav fillOrder={true}/>
+      <Nav fillOrder={true} />
       <div className="relative flex flex-0 flex-col mx-auto my-auto">
         <OrderNav />
 

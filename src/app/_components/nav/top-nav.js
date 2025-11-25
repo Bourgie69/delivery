@@ -31,7 +31,7 @@ const TopNav = (props) => {
     }
   };
 
-  const { cartItems, setCartItems } = props
+  const { cartItems, setCartItems, currentTokenId } = props
 
   return (
     <div className="flex justify-between bg-black h-17 px-10 items-center">
@@ -56,7 +56,7 @@ const TopNav = (props) => {
       <div className="flex gap-2.5 items-center">
         <Address />
 
-        <Cart cartItems={cartItems} setCartItems={setCartItems} />
+        <Cart cartItems={cartItems} setCartItems={setCartItems} currentTokenId={currentTokenId}/>
 
         <div className="flex bg-red-500 h-9 w-9 rounded-full justify-center items-center">
           <UserIcon />

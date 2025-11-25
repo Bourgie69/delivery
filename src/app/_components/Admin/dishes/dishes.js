@@ -45,7 +45,6 @@ const Dishes = () => {
       }
 
       const data = await response.json();
-      console.log("Category added", data);
       setCategoryName("");
       setCategoryDialogOpen(false);
     } catch (err) {
@@ -73,7 +72,6 @@ const Dishes = () => {
       }
 
       const data = await response.json();
-      console.log("Dish added", data);
       setFoodName("");
       setFoodPrice("");
       setFoodIngredients("");
@@ -168,7 +166,6 @@ const Dishes = () => {
             {data.map((item) => {
               const catName = item.name;
               const count = grouped[catName]?.length || 0;
-              console.log(item, "wubba");
               return (
                 <button
                   key={item._id}

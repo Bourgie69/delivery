@@ -3,11 +3,20 @@
 import Dishes from "../_components/Admin/dishes/dishes";
 import Nav from "../_components/nav/left-nav";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const foodMenu = () => {
   const [data, setData] = useState([]);
+  const router = useRouter()
 
   useEffect(() => {
+
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8000/categories");

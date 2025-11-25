@@ -17,12 +17,28 @@ import { Button } from "@/components/ui/button";
 import CartWhiteIcon from "@/app/_icons/cartWhite-icon";
 
 const Cart = (props) => {
-  const { cartItems, setCartItems } = props;
+  const { cartItems, setCartItems, currentTokenId } = props;
 
   const [cartPage, setCartPage] = useState(true);
+  const[totalPrice, setTotalPrice] = useState(0)
 
   const addQuantity = (item) => {
     item.quantity += 1;
+  };
+
+  const handleCheckout = async () => {
+    console.log(currentTokenId ? "123" : "345");
+
+    const response = await fetch("http://localhost:8000/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: currentTokenId,
+        foodOrderItems: [],
+        status: "PENDING",
+        totalPrice: totalPrice,
+      }),
+    });
   };
 
   const reduceQuantity = (item) => {
@@ -48,7 +64,7 @@ const Cart = (props) => {
             </div>
           </button>
         </SheetTrigger>
-        <SheetContent className="bg-gray-900 border-0 w-[530px] max-w-none!">
+        <SheetContent className="bg-gray-900 border-0 w-[530px] max-w-none! overflow-scroll">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2 text-white">
               <CartWhiteIcon />
@@ -145,18 +161,20 @@ const Cart = (props) => {
                     }, 0)}
                   </span>
                 </p>
-                <p>Shipping: $4.99</p>
+                <p>Shipping: $5</p>
                 <hr />
                 <p>
                   Total: $
                   <span>
                     {cartItems.reduce((acc, current) => {
                       return acc + current.price * current.quantity;
-                    }, 0)}
+                    }, 5)}
                   </span>
                 </p>
 
-                <Button variant="destructive">Checkout</Button>
+                <Button variant="destructive" onClick={handleCheckout}>
+                  Checkout
+                </Button>
               </div>
             </div>
 
