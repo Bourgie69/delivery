@@ -6,11 +6,19 @@ import Hero from "./_components/Dashboard/hero/hero";
 import DashboardDishes from "./_components/Dashboard/dishes/dishes";
 import Footer from "./_components/Dashboard/footer/footer";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
   const [grouped, setGrouped] = useState({});
   const [currentTokenId, setCurrentTokenId] = useState("");
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("cart");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+  const router = useRouter();
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -26,9 +34,25 @@ const Home = () => {
     };
 
     fetchFoods();
+
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
   }, []);
 
   useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+    }
     const token = localStorage.getItem("token");
     const payload = token.split(".")[1];
     const decoded = JSON.parse(atob(payload));
@@ -38,7 +62,11 @@ const Home = () => {
   return (
     <>
       <div className="min-h-screen pb-10 bg-gray-500">
-        <TopNav cartItems={cartItems} setCartItems={setCartItems} currentTokenId={currentTokenId}  />
+        <TopNav
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          currentTokenId={currentTokenId}
+        />
         <Hero />
         <div className="mx-auto px-12 w-fit mt-2.5">
           <DashboardDishes

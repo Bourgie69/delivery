@@ -4,6 +4,16 @@ import Image from "next/image";
 import CartIcon from "@/app/_icons/cart-icon";
 import { useState, useEffect } from "react";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -20,7 +30,29 @@ const Cart = (props) => {
   const { cartItems, setCartItems, currentTokenId } = props;
 
   const [cartPage, setCartPage] = useState(true);
-  const[totalPrice, setTotalPrice] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [address, setAddress] = useState("");
+  const [orderSuccess, setOrderSuccess] = useState(false)
+
+  useEffect(() => {
+    const orderTotal = cartItems.reduce(
+      (acc, items) => acc + items.price * items.quantity,
+      5
+    );
+    setTotalPrice(orderTotal);
+
+  }, [cartItems]);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems))
+  },[cartItems])
+  
+  useEffect(() => {
+    const savedCart = localStorage.getItem('cart')
+    if(savedCart){
+      setCartItems(JSON.parse(savedCart))
+    }
+  }, [])
 
   const addQuantity = (item) => {
     item.quantity += 1;
@@ -29,16 +61,27 @@ const Cart = (props) => {
   const handleCheckout = async () => {
     console.log(currentTokenId ? "123" : "345");
 
+    if (!address) {
+      alert("please enter address");
+      return;
+    }
     const response = await fetch("http://localhost:8000/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user: currentTokenId,
-        foodOrderItems: [],
+        foodOrderItems: cartItems.map((item) => ({
+          food: item._id,
+          quantity: item.quantity,
+        })),
         status: "PENDING",
         totalPrice: totalPrice,
+        address: address,
       }),
     });
+    setOrderSuccess(true)
+    setCartItems([]);
+    setAddress("");
   };
 
   const reduceQuantity = (item) => {
@@ -145,6 +188,8 @@ const Cart = (props) => {
                   <textarea
                     placeholder="Please enter delivery address here"
                     className="border h-20 rounded-2xl p-2"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
               </div>
@@ -171,7 +216,25 @@ const Cart = (props) => {
                     }, 5)}
                   </span>
                 </p>
-
+                <Dialog open={orderSuccess} onOpenChange={setOrderSuccess}>
+                    <DialogContent className="sm:max-w-[450px]">
+                      <DialogHeader>
+                        <DialogTitle className="text-center">Your Order has been successfully placed!</DialogTitle>
+                      </DialogHeader>
+                      <div className="w-full flex justify-center items-center">
+                        <Image
+                        src="/orderSuccess.png"
+                        alt="success"
+                        height={250}
+                        width={150}/>
+                      </div>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button variant="outline" className="w-full">Back to Home</Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                </Dialog>
                 <Button variant="destructive" onClick={handleCheckout}>
                   Checkout
                 </Button>

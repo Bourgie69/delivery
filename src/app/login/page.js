@@ -53,7 +53,7 @@ export default function Home() {
 
       localStorage.setItem("token", token);
 
-      router.push("/foodMenu");
+      router.push("/");
     } catch (err) {
       console.log(err);
     }
