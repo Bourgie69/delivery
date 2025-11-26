@@ -41,9 +41,11 @@ export default function Home() {
           <Orders
             key={item._id}
             index={data.indexOf(item) + 1}
-            email={item.user}
-            date={item.updatedAt}
+            email={item.user.email}
+            date={item.createdAt}
             price={item.totalPrice}
+            status={item.status}
+            address={item.address}
           />
         ))}
       </div>

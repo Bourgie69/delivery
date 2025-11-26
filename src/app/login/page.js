@@ -145,6 +145,7 @@ export default function Home() {
             onClick={() => {
               localStorage.removeItem("token");
               console.log("logged out!");
+              window.location.reload()
             }}
           >
             Un-Login
