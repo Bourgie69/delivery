@@ -30,6 +30,7 @@ const Cart = (props) => {
   const { cartItems, setCartItems, currentTokenId } = props;
 
   const [cartPage, setCartPage] = useState(true);
+  const [sheetOpen, setSheetOpen] = useState(false)
   const [totalPrice, setTotalPrice] = useState(0);
   const [address, setAddress] = useState("");
   const [orderSuccess, setOrderSuccess] = useState(false)
@@ -43,16 +44,7 @@ const Cart = (props) => {
 
   }, [cartItems]);
 
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems))
-  },[cartItems])
   
-  useEffect(() => {
-    const savedCart = localStorage.getItem('cart')
-    if(savedCart){
-      setCartItems(JSON.parse(savedCart))
-    }
-  }, [])
 
   const addQuantity = (item) => {
     item.quantity += 1;
@@ -99,7 +91,7 @@ const Cart = (props) => {
 
   return (
     <>
-      <Sheet>
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetTrigger asChild>
           <button>
             <div className="flex bg-white h-9 w-9 rounded-full justify-center items-center">
@@ -230,7 +222,7 @@ const Cart = (props) => {
                       </div>
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button variant="outline" className="w-full">Back to Home</Button>
+                          <Button variant="outline" className="w-full" onClick={() => {setSheetOpen(false)}}>Back to Home</Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
