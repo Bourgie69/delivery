@@ -25,15 +25,16 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import CartWhiteIcon from "@/app/_icons/cartWhite-icon";
+import OrderByUser from "./orderByUser";
 
 const Cart = (props) => {
   const { cartItems, setCartItems, currentTokenId } = props;
 
   const [cartPage, setCartPage] = useState(true);
-  const [sheetOpen, setSheetOpen] = useState(false)
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [address, setAddress] = useState("");
-  const [orderSuccess, setOrderSuccess] = useState(false)
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   useEffect(() => {
     const orderTotal = cartItems.reduce(
@@ -41,10 +42,8 @@ const Cart = (props) => {
       5
     );
     setTotalPrice(orderTotal);
-
+    console.log(cartItems)
   }, [cartItems]);
-
-  
 
   const addQuantity = (item) => {
     item.quantity += 1;
@@ -71,7 +70,7 @@ const Cart = (props) => {
         address: address,
       }),
     });
-    setOrderSuccess(true)
+    setOrderSuccess(true);
     setCartItems([]);
     setAddress("");
   };
@@ -209,36 +208,42 @@ const Cart = (props) => {
                   </span>
                 </p>
                 <Dialog open={orderSuccess} onOpenChange={setOrderSuccess}>
-                    <DialogContent className="sm:max-w-[450px]">
-                      <DialogHeader>
-                        <DialogTitle className="text-center">Your Order has been successfully placed!</DialogTitle>
-                      </DialogHeader>
-                      <div className="w-full flex justify-center items-center">
-                        <Image
+                  <DialogContent className="sm:max-w-[450px]">
+                    <DialogHeader>
+                      <DialogTitle className="text-center">
+                        Your Order has been successfully placed!
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="w-full flex justify-center items-center">
+                      <Image
                         src="/orderSuccess.png"
                         alt="success"
                         height={250}
-                        width={150}/>
-                      </div>
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <Button variant="outline" className="w-full" onClick={() => {setSheetOpen(false)}}>Back to Home</Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </DialogContent>
+                        width={150}
+                      />
+                    </div>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => {
+                            setSheetOpen(false);
+                          }}
+                        >
+                          Back to Home
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
                 </Dialog>
                 <Button variant="destructive" onClick={handleCheckout}>
                   Checkout
                 </Button>
               </div>
             </div>
-
-            <div
-              className="bg-white h-10 w-[80%] p-2 rounded-2xl"
-              style={{ display: cartPage ? "none" : "block" }}
-            >
-              Order
-            </div>
+            
+              <OrderByUser show={cartPage}/>
           </div>
         </SheetContent>
       </Sheet>
