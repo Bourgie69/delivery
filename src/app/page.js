@@ -22,7 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchFoods = async () => {
-      const res = await fetch("http://localhost:8000/foods");
+      const res = await fetch("https://food-delivery-isxu.onrender.com/foods");
       const data = await res.json();
       const groupedData = data.reduce((acc, item) => {
         const catName = item.category?.name || "Uncategorized";

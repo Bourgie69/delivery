@@ -20,7 +20,7 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/orders");
+        const response = await fetch("https://food-delivery-isxu.onrender.com/orders");
         const result = await response.json();
         console.log(result);
         setData(result);

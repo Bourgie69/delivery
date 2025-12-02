@@ -12,7 +12,7 @@ const TopNav = (props) => {
   const handleAddAddress = async (address) => {
 
     try {
-      const response = await fetch("http://localhost:8000/users", {
+      const response = await fetch("https://food-delivery-isxu.onrender.com/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

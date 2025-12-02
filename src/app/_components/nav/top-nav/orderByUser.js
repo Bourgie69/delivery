@@ -13,7 +13,7 @@ const OrderByUser = ({ show }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/orders/${user.id}`,
+          `https://food-delivery-isxu.onrender.com/orders/${user.id}`,
           {
             headers: {
               authorization: token,

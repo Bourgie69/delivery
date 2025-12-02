@@ -19,7 +19,7 @@ const foodMenu = () => {
     }
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/categories");
+        const response = await fetch("https://food-delivery-isxu.onrender.com/categories");
         const result = await response.json();
         setData(result);
       } catch (error) {

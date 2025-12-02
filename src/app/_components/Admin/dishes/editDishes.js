@@ -58,7 +58,7 @@ const EditDishes = (props) => {
 
   const handleDeleteDish = async (id) => {
     try {
-      const response = await fetch("http://localhost:8000/foods", {
+      const response = await fetch("https://food-delivery-isxu.onrender.com/foods", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

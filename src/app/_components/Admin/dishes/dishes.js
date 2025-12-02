@@ -34,7 +34,7 @@ const Dishes = () => {
     if (!categoryName.trim()) return alert("Please fill out field!");
 
     try {
-      const response = await fetch("http://localhost:8000/categories", {
+      const response = await fetch("https://food-delivery-isxu.onrender.com/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: categoryName }),
@@ -56,7 +56,7 @@ const Dishes = () => {
     if (!foodName.trim()) return alert("Please fill out field!");
 
     try {
-      const response = await fetch("http://localhost:8000/foods", {
+      const response = await fetch("https://food-delivery-isxu.onrender.com/foods", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -116,7 +116,7 @@ const Dishes = () => {
 
   useEffect(() => {
     const fetchFoods = async () => {
-      const res = await fetch("http://localhost:8000/foods");
+      const res = await fetch("https://food-delivery-isxu.onrender.com/foods");
       const data = await res.json();
       const groupedData = data.reduce((acc, item) => {
         const catName = item.category?.name || "Uncategorized";
@@ -130,7 +130,7 @@ const Dishes = () => {
     fetchFoods();
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/categories");
+        const response = await fetch("https://food-delivery-isxu.onrender.com/categories");
         const result = await response.json();
         setData(result);
       } catch (error) {
